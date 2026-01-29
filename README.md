@@ -13,11 +13,9 @@ Skills are markdown files that give AI agents specialized knowledge and workflow
 ## Available Skills
 
 <!-- SKILLS:START -->
-
-| Skill                                      | Description                                                                                                                                                                                     |
-| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [onboardjs-react](skills/onboardjs-react/) | Integrate OnboardJS into React projects for building user onboarding flows. Use when setting up OnboardJS in a React/Next.js project, creating multi-step onboarding, wizards, or guided flows. |
-
+| Skill | Description |
+|-------|-------------|
+| [onboardjs-react](skills/onboardjs-react/) | | |
 <!-- SKILLS:END -->
 
 ## Installation
