@@ -98,10 +98,12 @@ interface EngineState<TContext> {
   canGoPrevious: boolean
   isSkippable: boolean
   error: Error | null
-  currentStepNumber?: number
-  totalSteps?: number
+  currentStepNumber?: number  // May be undefined
+  totalSteps?: number         // May be undefined
 }
 ```
+
+> **Warning:** `state.steps` does NOT exist. The state object does not contain the steps array. For step indicators, use `currentStepNumber`/`totalSteps` (if available) or maintain your own `STEP_IDS` array and calculate the index from `currentStep.id`. See the Step Indicator section in SKILL.md.
 
 ### Usage Example
 

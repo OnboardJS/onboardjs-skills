@@ -118,6 +118,99 @@ function OnboardingUI() {
 }
 ```
 
+## Step Indicator / Progress
+
+**Important:** The `state` object does NOT have a `steps` array. Use `currentStepNumber` and `totalSteps`, or calculate from step IDs.
+
+### Option 1: Use Built-in Properties (if available)
+
+```tsx
+function OnboardingUI() {
+  const { state, renderStep } = useOnboarding()
+
+  return (
+    <div>
+      {state?.currentStepNumber && state?.totalSteps && (
+        <div>Step {state.currentStepNumber} of {state.totalSteps}</div>
+      )}
+      <progress
+        value={state?.currentStepNumber ?? 0}
+        max={state?.totalSteps ?? 1}
+      />
+      {renderStep()}
+    </div>
+  )
+}
+```
+
+### Option 2: Calculate from Step IDs (recommended)
+
+For reliable progress tracking, define step IDs once and calculate the index:
+
+```tsx
+// steps.tsx - export your step IDs
+export const STEP_IDS = ['welcome', 'profile', 'preferences', 'complete'] as const
+
+export const steps: OnboardingStep[] = [
+  { id: 'welcome', component: WelcomeStep, nextStep: 'profile' },
+  { id: 'profile', component: ProfileStep, nextStep: 'preferences' },
+  { id: 'preferences', component: PreferencesStep, nextStep: 'complete' },
+  { id: 'complete', component: CompleteStep, nextStep: null }
+]
+```
+
+```tsx
+// OnboardingUI.tsx
+import { STEP_IDS } from './steps'
+
+function OnboardingUI() {
+  const { state, renderStep } = useOnboarding()
+
+  const currentIndex = STEP_IDS.findIndex(id => id === state?.currentStep?.id)
+  const currentStepNumber = currentIndex + 1
+  const totalSteps = STEP_IDS.length
+
+  return (
+    <div>
+      <div>Step {currentStepNumber} of {totalSteps}</div>
+      <progress value={currentStepNumber} max={totalSteps} />
+      {renderStep()}
+    </div>
+  )
+}
+```
+
+### Step Indicator Component
+
+```tsx
+interface StepIndicatorProps {
+  stepIds: readonly string[]
+  currentStepId: string | undefined
+}
+
+function StepIndicator({ stepIds, currentStepId }: StepIndicatorProps) {
+  const currentIndex = stepIds.findIndex(id => id === currentStepId)
+
+  return (
+    <div className="flex gap-2">
+      {stepIds.map((id, index) => (
+        <div
+          key={id}
+          className={`w-3 h-3 rounded-full ${
+            index < currentIndex ? 'bg-green-500' :
+            index === currentIndex ? 'bg-blue-500' :
+            'bg-gray-300'
+          }`}
+        />
+      ))}
+    </div>
+  )
+}
+
+// Usage
+<StepIndicator stepIds={STEP_IDS} currentStepId={state?.currentStep?.id} />
+```
+
 ## Step Component Pattern
 
 ```tsx
