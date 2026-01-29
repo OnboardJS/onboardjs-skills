@@ -1,0 +1,21 @@
+{
+  "name": "onboardjs",
+  "owner": {
+    "name": "OnboardJS",
+    "url": "https://onboardjs.com"
+  },
+  "metadata": {
+    "description": "OnboardJS skills for Claude Code — user onboarding flows, NextJS/React integrations",
+    "version": "1.0.0",
+    "repository": "https://github.com/OnboardJS/onboardjs-skills"
+  },
+  "plugins": [
+    {
+      "name": "onboardjs",
+      "description": "User onboarding flows for React applications using OnboardJS",
+      "source": "./",
+      "strict": false,
+      "skills": ["./skills/onboardjs-react"]
+    }
+  ]
+}
